@@ -1,10 +1,10 @@
 import pokemonArray from "./data/pokemon.js";
 
 const container = document.querySelector(".card-container");
-const button = document.querySelector("button");
-const search = document.querySelector("#filter");
-const limit = document.querySelector("#limit");
-const types = document.querySelector("#types");
+const searchButton = document.querySelector("button");
+const searchInput = document.querySelector("#filter");
+const limitInput = document.querySelector("#limit");
+const typesDropdown = document.querySelector("#types");
 
 const allTypes = [];
 pokemonArray.forEach((pokemon) => {
@@ -18,16 +18,18 @@ pokemonArray.forEach((pokemon) => {
 allTypes.forEach((item) => {
     const option = document.createElement("option");
     option.innerHTML = item;
-    types.append(option);
+    typesDropdown.append(option);
 });
 
 const displayPokemons = () => {
     container.innerHTML = "";
     let count = 0;
     pokemonArray.forEach((pokemon) => {
-        if (!types.value || pokemon.types.includes(types.value)) {
-            if (isNaN(parseInt(limit.value)) || count < limit.value) {
-                if (!search.value || pokemon.name.toLowerCase().indexOf(search.value.toLowerCase()) >= 0) 
+        if (!typesDropdown.value || pokemon.types.includes(typesDropdown.value))
+        {
+            if (isNaN(parseInt(limitInput.value)) || count < limitInput.value)
+            {
+                if (!searchInput.value || pokemon.name.toLowerCase().indexOf(searchInput.value.toLowerCase()) >= 0) 
                 {
                     const card = document.createElement("div");
                     card.classList.add("card");
@@ -40,13 +42,13 @@ const displayPokemons = () => {
                         <div class="card__text">${capitalisedName} (#${pokemon.id}) is a ${types} type pokemon.</div>
                     </div>`;
                     container.append(card);
+                    count += 1;
                 }
-                count += 1;
             }
         }
     });
 };
 
-button.addEventListener("click", displayPokemons);
+searchButton.addEventListener("click", displayPokemons);
 
 displayPokemons();
